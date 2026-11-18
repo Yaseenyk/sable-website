@@ -10,12 +10,12 @@ const shot = (id: string, alt: string, caption: string): Shot => ({ src: `/shots
 export const SHOTS = {
   home: shot(
     "home",
-    "Sable's Home screen on Android: left this month ₹38,350, money in ₹62,000, money out ₹23,650, a total of ₹87,700 across two accounts, and four buttons to upload, scan, add money or tell Sable",
+    "Sable's Home screen on Android: left this month ₹38,350, money in ₹62,000, money out ₹23,650, a total of ₹87,700 across two accounts, and a row of round buttons to upload, scan, add money, tell Sable or open reports",
     "Home: what is left this month, and what you have",
   ),
   chat: shot(
     "chat",
-    "Sable's chat on Android: the message lent Ramesh 1000 has become a Review and Confirm card reading You'll get ₹1,000 from Ramesh, with Confirm and Cancel buttons",
+    "Sable's chat on Android: the message lent Ramesh 2000 has become a Review and Confirm card reading You'll get ₹2,000 from Ramesh, with Confirm and Cancel buttons",
     "Chat: every message becomes a card you confirm",
   ),
   people: shot(

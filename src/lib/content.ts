@@ -175,7 +175,7 @@ export const DATA_FLOWS: { when: string; what: string; to: string }[] = [
 
 export const PERMISSIONS: { name: string; why: string }[] = [
   { name: "Camera", why: "Only when you choose to scan a receipt or payment screen." },
-  { name: "Notifications", why: "For reminders you set." },
+  { name: "Notifications", why: "An evening reminder to add the day's entries, and any reminder you set yourself." },
   { name: "Background work", why: "So a reminder you set still arrives after the phone restarts." },
 ];
 
