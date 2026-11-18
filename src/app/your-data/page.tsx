@@ -1,5 +1,5 @@
 import JsonLd from "@/components/JsonLd";
-import { Breadcrumbs, Container, CtaBand, PageIntro, SectionHeading } from "@/components/Blocks";
+import { Breadcrumbs, Container, CtaBand, DataTable, PageIntro, SectionHeading } from "@/components/Blocks";
 import { BLOCKED_PERMISSIONS, DATA_FLOWS, PERMISSIONS } from "@/lib/content";
 import { breadcrumbJsonLd, pageMetadata, webPageJsonLd } from "@/lib/seo";
 
@@ -34,25 +34,12 @@ export default function YourDataPage() {
       <section className="border-t border-line">
         <Container className="py-14 sm:py-16">
           <SectionHeading title="What leaves the phone, and when" lead="Only the AI features send anything, and only after you add your own OpenAI key in Settings. It goes straight from your phone to OpenAI. It does not pass through me." />
-          <div className="mt-8 overflow-x-auto">
-            <table className="w-full min-w-[640px] border-collapse text-left text-[15px]">
-              <thead>
-                <tr className="border-b border-line text-sm text-ink-mute">
-                  <th scope="col" className="w-[26%] py-3 pr-5 font-medium">When</th>
-                  <th scope="col" className="py-3 pr-5 font-medium">What is sent</th>
-                  <th scope="col" className="w-[20%] py-3 font-medium">To whom</th>
-                </tr>
-              </thead>
-              <tbody>
-                {DATA_FLOWS.map((r) => (
-                  <tr key={r.when} className="border-b border-line/70 align-top">
-                    <th scope="row" className="py-4 pr-5 font-semibold text-ink">{r.when}</th>
-                    <td className="py-4 pr-5 leading-relaxed text-ink-soft">{r.what}</td>
-                    <td className="py-4 leading-relaxed text-ink-soft">{r.to}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="mt-8">
+            <DataTable
+              head={["When", "What is sent", "To whom"]}
+              widths={["sm:w-[26%]", "", "sm:w-[20%]"]}
+              rows={DATA_FLOWS.map((r) => ({ key: r.when, cells: [r.when, r.what, r.to] }))}
+            />
           </div>
           <div className="prose-sable">
             <p>

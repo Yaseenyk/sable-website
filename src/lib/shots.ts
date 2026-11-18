@@ -1,11 +1,14 @@
 /**
  * Real screens from the Sable app (version 1.0.0), captured on 19 November 2026 from the release build running on
  * Android 14. The entries in them are sample entries typed into the app for the capture, not anyone's real money.
- * Files: public/shots/<id>.webp, 720 x 1600.
+ * Files: public/shots/<version>/<id>.webp, 720 x 1600. v2 is the restyled app (19 November 2026).
  */
 export type Shot = { src: string; width: number; height: number; alt: string; caption: string };
 
-const shot = (id: string, alt: string, caption: string): Shot => ({ src: `/shots/${id}.webp`, width: 720, height: 1600, alt, caption });
+/** Bump this, and the folder name, whenever the screens are recaptured: a new path means no browser shows an old saved copy. */
+const VERSION = "v2";
+
+const shot = (id: string, alt: string, caption: string): Shot => ({ src: `/shots/${VERSION}/${id}.webp`, width: 720, height: 1600, alt, caption });
 
 export const SHOTS = {
   home: shot(

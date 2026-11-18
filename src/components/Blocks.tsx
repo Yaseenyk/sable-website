@@ -84,6 +84,55 @@ export function FaqList({ items }: { items: { q: string; a: string }[] }) {
   );
 }
 
+/**
+ * A table that reads as a table on a wide screen and as stacked rows on a phone: below the sm breakpoint the header
+ * row is hidden (kept for screen readers) and each cell shows its column name above it, so nothing is cut off or
+ * needs sideways scrolling. One copy of the content, restyled by CSS.
+ */
+export function DataTable({
+  head,
+  rows,
+  widths = [],
+}: {
+  head: string[];
+  rows: { key: string; cells: ReactNode[]; highlight?: boolean }[];
+  /** Optional width class per column, for the wide layout (e.g. "sm:w-[26%]"). */
+  widths?: string[];
+}) {
+  const cell =
+    "py-3 pr-5 align-top leading-relaxed max-sm:block max-sm:py-1.5 max-sm:pr-0 max-sm:before:mb-0.5 max-sm:before:block max-sm:before:font-mono max-sm:before:text-[11px] max-sm:before:font-normal max-sm:before:uppercase max-sm:before:tracking-[0.12em] max-sm:before:text-ink-mute max-sm:before:content-[attr(data-label)]";
+  return (
+    <table className="w-full border-collapse text-left text-[15px]">
+      <thead className="max-sm:sr-only">
+        <tr className="border-b border-line text-sm text-ink-mute">
+          {head.map((h, i) => (
+            <th key={h} scope="col" className={`py-3 pr-5 font-medium ${widths[i] ?? ""}`}>
+              {h}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr key={r.key} className={`border-b border-line/70 max-sm:block max-sm:py-3 ${r.highlight ? "bg-cyan/[0.06] max-sm:px-3" : ""}`}>
+            {r.cells.map((c, i) =>
+              i === 0 ? (
+                <th key={i} scope="row" data-label={head[i]} className={`${cell} font-semibold text-ink ${r.highlight ? "sm:pl-3" : ""}`}>
+                  {c}
+                </th>
+              ) : (
+                <td key={i} data-label={head[i]} className={`${cell} text-ink-soft`}>
+                  {c}
+                </td>
+              ),
+            )}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
 /** The closing call to action, the same on every page. */
 export function CtaBand() {
   return (

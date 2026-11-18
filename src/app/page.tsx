@@ -1,6 +1,6 @@
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
-import { Container, CtaBand, FaqList, PrimaryLink, SecondaryLink, SectionHeading } from "@/components/Blocks";
+import { Container, CtaBand, DataTable, FaqList, PrimaryLink, SecondaryLink, SectionHeading } from "@/components/Blocks";
 import PhoneShot from "@/components/Phone";
 import { CHAT_EXAMPLES, FAQS, LIMITS, QUESTIONS } from "@/lib/content";
 import { faqPageJsonLd, webPageJsonLd } from "@/lib/seo";
@@ -79,23 +79,14 @@ export default function HomePage() {
           </div>
           <div className="order-1 lg:order-2">
             <SectionHeading eyebrow="Tell Sable" title="Type it the way you would say it" lead="Every message becomes a card that says exactly what will be saved. Nothing is written until you tap Confirm." />
-            <div className="mt-8 overflow-x-auto">
-              <table className="w-full min-w-[420px] border-collapse text-left text-[15px]">
-                <thead>
-                  <tr className="border-b border-line text-sm text-ink-mute">
-                    <th scope="col" className="py-2.5 pr-4 font-medium">You type</th>
-                    <th scope="col" className="py-2.5 font-medium">Sable shows, for you to confirm</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {CHAT_EXAMPLES.map((e) => (
-                    <tr key={e.say} className="border-b border-line/70">
-                      <td className="whitespace-nowrap py-3 pr-4 font-mono text-[14px] text-ink">{e.say}</td>
-                      <td className={`py-3 ${KIND_TONE[e.kind]}`}>{e.card}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="mt-8">
+              <DataTable
+                head={["You type", "Sable shows, for you to confirm"]}
+                rows={CHAT_EXAMPLES.map((e) => ({
+                  key: e.say,
+                  cells: [<span key="say" className="font-mono text-[14px] font-normal">{e.say}</span>, <span key="card" className={KIND_TONE[e.kind]}>{e.card}</span>],
+                }))}
+              />
             </div>
             <p className="mt-6 max-w-[60ch] leading-relaxed text-ink-soft">
               These phrases are understood on the phone itself, and amounts can be written as 2k, 1.5 lakh or 1 cr. Add your own OpenAI key and Sable also copes with typos and looser wording, and can answer questions such as how much you earned this month.

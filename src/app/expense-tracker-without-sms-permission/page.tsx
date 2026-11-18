@@ -1,6 +1,6 @@
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
-import { Breadcrumbs, Container, CtaBand, FaqList, PageIntro, PrimaryLink, SecondaryLink, SectionHeading } from "@/components/Blocks";
+import { Breadcrumbs, Container, CtaBand, DataTable, FaqList, PageIntro, PrimaryLink, SecondaryLink, SectionHeading } from "@/components/Blocks";
 import PhoneShot from "@/components/Phone";
 import { BLOCKED_PERMISSIONS, CHAT_EXAMPLES, PERMISSIONS } from "@/lib/content";
 import { breadcrumbJsonLd, faqPageJsonLd, pageMetadata, webPageJsonLd } from "@/lib/seo";
@@ -75,28 +75,23 @@ export default function NoSmsPage() {
       <section className="border-t border-line">
         <Container className="py-14 sm:py-16">
           <SectionHeading title="Three ways an app can learn what you spent" lead="Every expense tracker uses one of these. Each has a price, paid either in access or in effort." />
-          <div className="mt-8 overflow-x-auto">
-            <table className="w-full min-w-[640px] border-collapse text-left text-[15px]">
-              <thead>
-                <tr className="border-b border-line text-sm text-ink-mute">
-                  <th scope="col" className="w-[24%] py-3 pr-5 font-medium">How it gets your spending</th>
-                  <th scope="col" className="py-3 pr-5 font-medium">What the app can see</th>
-                  <th scope="col" className="w-[28%] py-3 font-medium">Effort for you</th>
-                </tr>
-              </thead>
-              <tbody>
-                {WAYS.map((w) => (
-                  <tr key={w.way} className={`border-b border-line/70 align-top ${w.sable ? "bg-cyan/[0.06]" : ""}`}>
-                    <th scope="row" className="py-4 pl-3 pr-5 font-semibold text-ink">
-                      {w.way}
-                      {w.sable && <span className="mt-1 block font-mono text-[12px] font-normal text-cyan">This is Sable</span>}
-                    </th>
-                    <td className="py-4 pr-5 leading-relaxed text-ink-soft">{w.sees}</td>
-                    <td className="py-4 pr-3 leading-relaxed text-ink-soft">{w.effort}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="mt-8">
+            <DataTable
+              head={["How it gets your spending", "What the app can see", "Effort for you"]}
+              widths={["sm:w-[24%]", "", "sm:w-[28%]"]}
+              rows={WAYS.map((w) => ({
+                key: w.way,
+                highlight: w.sable,
+                cells: [
+                  <span key="way">
+                    {w.way}
+                    {w.sable && <span className="mt-1 block font-mono text-[12px] font-normal text-cyan">This is Sable</span>}
+                  </span>,
+                  w.sees,
+                  w.effort,
+                ],
+              }))}
+            />
           </div>
         </Container>
       </section>

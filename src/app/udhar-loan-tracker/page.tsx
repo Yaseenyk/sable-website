@@ -1,6 +1,6 @@
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
-import { Breadcrumbs, Container, CtaBand, FaqList, PageIntro, PrimaryLink, SecondaryLink, SectionHeading } from "@/components/Blocks";
+import { Breadcrumbs, Container, CtaBand, DataTable, FaqList, PageIntro, PrimaryLink, SecondaryLink, SectionHeading } from "@/components/Blocks";
 import PhoneShot from "@/components/Phone";
 import { breadcrumbJsonLd, faqPageJsonLd, pageMetadata, webPageJsonLd } from "@/lib/seo";
 import { SHOTS } from "@/lib/shots";
@@ -82,23 +82,11 @@ export default function UdharPage() {
       <section className="border-t border-line">
         <Container className="py-14 sm:py-16">
           <SectionHeading title="Add it in a few words" lead="You do not have to open a form. Type it in chat, check the card Sable shows, and tap Confirm." />
-          <div className="mt-8 overflow-x-auto">
-            <table className="w-full min-w-[460px] border-collapse text-left text-[15px]">
-              <thead>
-                <tr className="border-b border-line text-sm text-ink-mute">
-                  <th scope="col" className="py-2.5 pr-4 font-medium">You type</th>
-                  <th scope="col" className="py-2.5 font-medium">What happens after you confirm</th>
-                </tr>
-              </thead>
-              <tbody>
-                {PHRASES.map((p) => (
-                  <tr key={p.say} className="border-b border-line/70">
-                    <td className="whitespace-nowrap py-3 pr-4 font-mono text-[14px] text-ink">{p.say}</td>
-                    <td className="py-3 text-ink-soft">{p.does}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="mt-8">
+            <DataTable
+              head={["You type", "What happens after you confirm"]}
+              rows={PHRASES.map((p) => ({ key: p.say, cells: [<span key="say" className="font-mono text-[14px] font-normal">{p.say}</span>, p.does] }))}
+            />
           </div>
           <p className="mt-6 max-w-[64ch] leading-relaxed text-ink-soft">
             These phrases are understood on the phone itself, with no internet. Amounts can be written as 2k, 1.5 lakh or 1 cr. You can also add an entry from the People tab with the Add button.
