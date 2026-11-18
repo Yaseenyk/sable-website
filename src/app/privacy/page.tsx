@@ -6,12 +6,12 @@ import { CONTACT, MAKER } from "@/lib/site";
 
 const TITLE = "Privacy Notice for the Sable Website and App";
 const DESCRIPTION =
-  "What the Sable website records about a visit, what the forms send, and how the Sable app keeps your money records on your phone. No ads, no ad cookies.";
+  "What the Sable website records about a visit, what the forms send, and how the Sable app keeps your money records on your phone. No ads on the site.";
 
 export const metadata = pageMetadata({ title: TITLE, description: DESCRIPTION, path: "privacy" });
 
-// This page describes only what is switched on today. Google Analytics and Microsoft Clarity are not set up for this
-// site (ANALYTICS in src/lib/site.ts is empty). If either id is filled in, add a paragraph for it here in the same change.
+// This page describes what is switched on today: the first-party counter, Google Analytics and Microsoft Clarity
+// (ANALYTICS in src/lib/site.ts). If either id is changed or removed, change this page in the same commit.
 export default function PrivacyPage() {
   return (
     <>
@@ -32,7 +32,13 @@ export default function PrivacyPage() {
           <strong>Hosting.</strong> The site is served by GitHub Pages, which may log requests such as IP addresses under its own policy.
         </p>
         <p>
-          <strong>Nothing else.</strong> This site does not use Google Analytics, session recording or advertising cookies. The fonts are served from this site, not from Google.
+          <strong>Google Analytics.</strong> Sets first-party cookies and sends usage data to Google: pages viewed, approximate location, device and browser, and the source of the visit.
+        </p>
+        <p>
+          <strong>Microsoft Clarity.</strong> A free tool that records anonymised heatmaps and session replays so I can see where visitors get stuck. It sets cookies. Text typed into the forms on this site is masked and is not recorded.
+        </p>
+        <p>
+          Both load a few seconds after the page, or when you first touch it. None of this is used to target you with advertising, and the site has no advertising cookies. You can block both with a browser extension or by turning off cookies, and the site keeps working. The fonts are served from this site, not from Google.
         </p>
 
         <h3>The forms</h3>
@@ -57,6 +63,7 @@ export default function PrivacyPage() {
         <h2>Your choices</h2>
         <ul>
           <li>Turn on Do Not Track or Global Privacy Control in your browser to switch the visit counter off.</li>
+          <li>Block Google Analytics and Microsoft Clarity with a browser extension, or by turning off cookies for this site.</li>
           <li>
             Ask me what you sent through a form, or ask me to delete it: <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.
           </li>

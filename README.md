@@ -26,7 +26,7 @@ npm run build    # static site in ./out, then the checks below
 - No ads. `scripts/verify-no-ads.mjs` fails the build if Google ad code appears.
 - Only approved third-party scripts. `scripts/check-third-party.mjs` fails the build on any other host, and on any payment provider.
 - Every sitemap page needs a canonical, exactly one h1, a 50 to 160 character description and the share image (`scripts/verify-sitemap.mjs`).
-- The privacy page describes only what is switched on. Google Analytics and Clarity are off (empty ids in `site.ts`); if you add an id, add its paragraph to `src/app/privacy/page.tsx` in the same change.
+- The privacy page describes what is switched on: the first-party counter, the Google tag and Microsoft Clarity (ids in `ANALYTICS`, `src/lib/site.ts`). Change `src/app/privacy/page.tsx` in the same commit as any change to those ids.
 
 ## Images
 

@@ -52,17 +52,22 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: "#070b16", colorScheme: "dark", width: "device-width", initialScale: 1 };
 
-// Google Analytics and Microsoft Clarity load only when their ids are set in src/lib/site.ts (they are empty today, so
-// neither script is on the page). Same loader as the sibling sites: nothing on localhost, and the third-party files
-// are fetched once, on the first interaction or a few seconds after load.
+// Google tag (Google Analytics) and Microsoft Clarity. Same approach as the sibling sites: nothing on localhost
+// (unless ?ga_test=1), the dataLayer starts at once so nothing is lost, and the two third-party files are fetched once,
+// on the first interaction or a few seconds after load, so they never slow the first paint.
+// The Google tag is loaded exactly as its GA4 panel gives it: gtm.js with the tag id, then gtag('js', new Date()).
+// A plain G- measurement id would also work here: it is loaded through gtag/js and configured.
+const isMeasurementId = (id: string) => id.startsWith("G-");
 const gaBoot = (id: string) =>
-  `(function(){if(/^(localhost|127.0.0.1|0.0.0.0)$/.test(location.hostname)&&!/ga_test=1/.test(location.search)){window.gaEvent=function(){};window.gtag=function(){};return}var w=window;w.dataLayer=w.dataLayer||[];function gtag(){w.dataLayer.push(arguments)}w.gtag=gtag;gtag('js',new Date());gtag('config','${id}');w.gaEvent=function(n,p){try{p=p||{};p.cta_page=p.cta_page||location.pathname;gtag('event',n,p)}catch(e){}};})();`;
+  `(function(){if(/^(localhost|127.0.0.1|0.0.0.0)$/.test(location.hostname)&&!/ga_test=1/.test(location.search)){window.gaEvent=function(){};window.gtag=function(){};return}var w=window;w.dataLayer=w.dataLayer||[];function gtag(){w.dataLayer.push(arguments)}w.gtag=gtag;gtag('js',new Date());${
+    isMeasurementId(id) ? `gtag('config','${id}');` : ""
+  }w.gaEvent=function(n,p){try{p=p||{};p.cta_page=p.cta_page||location.pathname;gtag('event',n,p)}catch(e){}};})();`;
 const thirdPartyLoader = (ga: string, clarity: string) =>
   `(function(){if(/^(localhost|127.0.0.1|0.0.0.0)$/.test(location.hostname)&&!/ga_test=1/.test(location.search))return;var w=window,d=document,done=false;function go(){if(done)return;done=true;${
-    ga ? `var s=d.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=${ga}';d.head.appendChild(s);` : ""
+    ga ? `var s=d.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/${isMeasurementId(ga) ? "gtag/js" : "gtm.js"}?id=${ga}';d.head.appendChild(s);` : ""
   }${
     clarity
-      ? `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(w,d,'clarity','script','${clarity}');`
+      ? `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i+'?ref=bwt';y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(w,d,'clarity','script','${clarity}');`
       : ""
   }}['pointerdown','keydown','scroll','touchstart'].forEach(function(e){w.addEventListener(e,go,{once:true,passive:true})});function onLoad(){setTimeout(go,4000)}if(d.readyState==='complete')onLoad();else w.addEventListener('load',onLoad,{once:true})})();`;
 
@@ -70,8 +75,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-IN">
       <head>
-        {ANALYTICS.ga4 && <script dangerouslySetInnerHTML={{ __html: gaBoot(ANALYTICS.ga4) }} />}
-        {(ANALYTICS.ga4 || ANALYTICS.clarity) && <script dangerouslySetInnerHTML={{ __html: thirdPartyLoader(ANALYTICS.ga4, ANALYTICS.clarity) }} />}
+        {ANALYTICS.googleTag && <script dangerouslySetInnerHTML={{ __html: gaBoot(ANALYTICS.googleTag) }} />}
+        {(ANALYTICS.googleTag || ANALYTICS.clarity) && <script dangerouslySetInnerHTML={{ __html: thirdPartyLoader(ANALYTICS.googleTag, ANALYTICS.clarity) }} />}
         {/* First-party visit counter (the owner's own Cloudflare Worker): no cookies, no stored address. Off on the form pages. */}
         <script defer src="https://pulse.yaseenyk.workers.dev/p.js" data-site={HOST} data-exclude="/contact,/early-access"></script>
       </head>

@@ -54,9 +54,10 @@ export const VERIFICATION = {
   bing: "",
 } as const;
 
-/** Google Analytics and Microsoft Clarity are not set up for this site yet. While these are empty, neither script is loaded
-    and the privacy page does not mention them. Fill both, then add the two paragraphs back to src/app/privacy/page.tsx. */
+/** Analytics ids, both given by the owner on 19 November 2026. The privacy page (src/app/privacy/page.tsx) names both:
+    change that page in the same commit as any change here.
+    googleTag is the Google tag shown in the GA4 data stream's "Set up a Google tag" panel; clarity is the Clarity project id. */
 export const ANALYTICS = {
-  ga4: "",
-  clarity: "",
+  googleTag: "GTM-MW54XNHR",
+  clarity: "zfrqgiz8wr",
 } as const;
