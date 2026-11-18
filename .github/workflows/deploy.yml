@@ -87,6 +87,15 @@ jobs:
                 "https://sable.streamerosai.com/about/",
                 "https://sable.streamerosai.com/contact/",
                 "https://sable.streamerosai.com/privacy/",
-                "https://sable.streamerosai.com/terms/"
+                "https://sable.streamerosai.com/terms/",
+                "https://sable.streamerosai.com/features/add-money/",
+                "https://sable.streamerosai.com/features/chat/",
+                "https://sable.streamerosai.com/features/import/",
+                "https://sable.streamerosai.com/features/accounts/",
+                "https://sable.streamerosai.com/features/analytics/",
+                "https://sable.streamerosai.com/features/search/",
+                "https://sable.streamerosai.com/features/earnings/",
+                "https://sable.streamerosai.com/features/pdf-report/",
+                "https://sable.streamerosai.com/features/backup/"
               ]
             }' || true

@@ -1,4 +1,5 @@
 import { BLOCKED_PERMISSIONS, CHAT_EXAMPLES, DATA_FLOWS, FAQS, FEATURE_GROUPS, LIMITS, PERMISSIONS, QUESTIONS, STACK } from "@/lib/content";
+import { FEATURE_PAGES } from "@/lib/features";
 import { canonicalUrl } from "@/lib/seo";
 import { APP, CONTACT, MAKER, SITE_DESCRIPTION, SITE_TAGLINE } from "@/lib/site";
 
@@ -33,6 +34,16 @@ export function GET() {
       BLOCKED_PERMISSIONS.map((p) => `- ${p}`).join("\n") +
       `\n\nThe OpenAI key is kept in Android's secure storage and is never included in an export file.`,
   );
+
+  for (const f of FEATURE_PAGES) {
+    parts.push(
+      `# ${f.title}\n\nURL: ${canonicalUrl(`features/${f.slug}`)}\n\n${f.lead}\n\nWhere: ${f.where}\nAI and internet: ${f.keyNote}\n\n## How to use it\n` +
+        f.steps.map((s, i) => `${i + 1}. ${s}`).join("\n") +
+        f.sections.map((s) => `\n\n## ${s.h}\n` + (s.body ?? "") + (s.points ? s.points.map((p) => `- ${p}`).join("\n") : "")).join("") +
+        `\n\n## Limits\n` + f.limits.map((l) => `- ${l}`).join("\n") +
+        `\n\n## Questions\n` + f.faq.map((q) => `${q.q} ${q.a}`).join("\n"),
+    );
+  }
 
   parts.push(`# What Sable is not\n\n` + LIMITS.map((l) => `## ${l.title}\n${l.body}`).join("\n\n"));
 

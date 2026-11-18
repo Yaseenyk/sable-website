@@ -1,3 +1,5 @@
+import { FEATURE_PAGES } from "@/lib/features";
+
 export type Route = { path: string; title: string; priority: number; summary: string };
 
 /** Every indexable page. The sitemap, llms.txt and the build check all read this list.
@@ -12,4 +14,5 @@ export const ROUTES: Route[] = [
   { path: "contact", title: "Contact", priority: 0.5, summary: "email and WhatsApp" },
   { path: "privacy", title: "Privacy notice", priority: 0.2, summary: "what this website and the app collect" },
   { path: "terms", title: "Terms of use", priority: 0.2, summary: "terms for the website and the test builds" },
+  ...FEATURE_PAGES.map((f) => ({ path: `features/${f.slug}`, title: f.name, priority: 0.8, summary: f.description })),
 ];

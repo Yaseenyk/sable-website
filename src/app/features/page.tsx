@@ -3,6 +3,7 @@ import JsonLd from "@/components/JsonLd";
 import { Breadcrumbs, Container, CtaBand, PageIntro, PrimaryLink, SecondaryLink } from "@/components/Blocks";
 import PhoneShot from "@/components/Phone";
 import { FEATURE_GROUPS } from "@/lib/content";
+import { FEATURE_PAGES } from "@/lib/features";
 import { SHOTS } from "@/lib/shots";
 import { breadcrumbJsonLd, pageMetadata, webPageJsonLd } from "@/lib/seo";
 
@@ -11,6 +12,22 @@ const DESCRIPTION =
   "Every feature of the Sable expense tracker: add money by hand, in chat or from a bank statement, track udhar and EMIs, and see reports, all on your phone.";
 
 export const metadata = pageMetadata({ title: TITLE, description: DESCRIPTION, path: "features", absoluteTitle: true });
+
+/** Which page explains each feature in full. */
+const PAGE_FOR: Record<string, string> = {
+  "Add by hand": "/features/add-money/",
+  "Tell Sable in chat": "/features/chat/",
+  "Import a file": "/features/import/",
+  "You'll get and You'll pay": "/udhar-loan-tracker/",
+  EMIs: "/udhar-loan-tracker/",
+  "Accounts and balances": "/features/accounts/",
+  Analytics: "/features/analytics/",
+  Search: "/features/search/",
+  Earnings: "/features/earnings/",
+  "PDF report": "/features/pdf-report/",
+  "Export and import": "/features/backup/",
+  "Android backup": "/features/backup/",
+};
 
 export default function FeaturesPage() {
   return (
@@ -24,6 +41,26 @@ export default function FeaturesPage() {
         <PrimaryLink href="/early-access/">Ask for early access</PrimaryLink>
         <SecondaryLink href="/your-data/">How your data is handled</SecondaryLink>
       </PageIntro>
+
+      <Container className="pb-12">
+        <h2 className="text-2xl font-semibold tracking-tight text-ink">One page for each feature</h2>
+        <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURE_PAGES.map((p) => (
+            <li key={p.slug}>
+              <Link href={`/features/${p.slug}/`} className="block h-full rounded-xl border border-line bg-navy-card px-5 py-4 transition-colors hover:border-ink-mute">
+                <span className="font-semibold text-ink">{p.name}</span>
+                <span className="mt-1.5 block text-sm leading-relaxed text-ink-soft">{p.description}</span>
+              </Link>
+            </li>
+          ))}
+          <li>
+            <Link href="/udhar-loan-tracker/" className="block h-full rounded-xl border border-line bg-navy-card px-5 py-4 transition-colors hover:border-ink-mute">
+              <span className="font-semibold text-ink">People, loans and EMIs</span>
+              <span className="mt-1.5 block text-sm leading-relaxed text-ink-soft">Who owes you and whom you owe, settling up, and EMIs with a start and end month.</span>
+            </Link>
+          </li>
+        </ul>
+      </Container>
 
       <Container className="pb-6">
         <nav aria-label="On this page" className="flex flex-wrap gap-2">
@@ -43,7 +80,13 @@ export default function FeaturesPage() {
             <div className="mt-8 grid gap-x-10 gap-y-10 md:grid-cols-2">
               {g.features.map((f) => (
                 <article key={f.name} className="border-t border-line pt-5">
-                  <h3 className="text-xl font-semibold text-ink">{f.name}</h3>
+                  <h3 className="text-xl font-semibold text-ink">
+                    {PAGE_FOR[f.name] ? (
+                      <Link href={PAGE_FOR[f.name]} className="hover:text-cyan">{f.name}</Link>
+                    ) : (
+                      f.name
+                    )}
+                  </h3>
                   <p className="mt-2 leading-relaxed text-ink-soft">{f.summary}</p>
                   <ul className="mt-3 space-y-2">
                     {f.points.map((p) => (
@@ -53,6 +96,11 @@ export default function FeaturesPage() {
                       </li>
                     ))}
                   </ul>
+                  {PAGE_FOR[f.name] && (
+                    <Link href={PAGE_FOR[f.name]} className="mt-3 inline-block text-sm font-semibold text-cyan underline underline-offset-4 hover:text-cyan-soft">
+                      More about {f.name.toLowerCase()}
+                    </Link>
+                  )}
                 </article>
               ))}
             </div>
