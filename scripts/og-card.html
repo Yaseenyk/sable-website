@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- The share card (1200x630). scripts/make-images.py opens this in headless Chrome and saves public/og.png. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Inter"; font-weight: 100 900; src: url("../src/app/fonts/Inter-latin.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 100 800; src: url("../src/app/fonts/JetBrainsMono-latin.woff2") format("woff2"); }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; background: #070b16; overflow: hidden; }
+  body { font-family: "Inter", sans-serif; color: #f8fafc; padding: 72px 80px; display: flex; flex-direction: column; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 20px; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; }
+  h1 { font-size: 76px; line-height: 1.04; font-weight: 600; letter-spacing: -0.035em; max-width: 15ch; }
+  h1 span { background: linear-gradient(120deg, #67e8f9, #818cf8); -webkit-background-clip: text; color: transparent; }
+  .foot { display: flex; justify-content: space-between; align-items: flex-end; }
+  .foot p { font-size: 27px; line-height: 1.4; color: #a7b4c8; max-width: 30ch; }
+  .meta { font-family: "JetBrains Mono", monospace; font-size: 20px; color: #7d8ba3; text-align: right; line-height: 1.6; }
+  .rule { position: absolute; left: 80px; right: 80px; top: 166px; border-top: 1px solid #243350; }
+</style>
+</head>
+<body>
+  <div class="brand">
+    <svg width="68" height="68" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22D3EE"/><stop offset="1" stop-color="#6366F1"/></linearGradient></defs><rect width="100" height="100" rx="24" fill="url(#g)"/><path d="M44.83 69.32 A20 20 0 1 1 66.77 60.89" stroke="#F8FAFC" stroke-width="8" stroke-linecap="round" fill="none"/><circle cx="57.16" cy="68.67" r="6" fill="#F8FAFC"/></svg>
+    Sable
+  </div>
+  <div class="rule"></div>
+  <h1>Know what is left this month, and <span>who owes whom</span></h1>
+  <div class="foot">
+    <p>A personal money app for Android. Every record stays on your phone.</p>
+    <div class="meta">sable.streamerosai.com<br>Android · private testing</div>
+  </div>
+</body>
+</html>

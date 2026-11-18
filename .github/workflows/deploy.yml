@@ -1,0 +1,90 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+      - id: pages
+        uses: actions/configure-pages@v6
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      # Built for wherever Pages serves the site: https://yaseenyk.github.io/sable-website until the
+      # custom domain is set, then https://sable.streamerosai.com with no prefix.
+      # The build also runs the checks: every sitemap page, third-party scripts, and the no-ads tripwire.
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+      - run: touch ./out/.nojekyll
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment_retry.outputs.page_url || steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+        with:
+          timeout: 420000
+        continue-on-error: true
+      # GitHub's Pages backend sometimes accepts a deployment and never finishes it. Retry once, after the
+      # first attempt has fully aborted, instead of waiting for someone to re-run the job by hand.
+      - name: Wait for the first attempt to finish aborting
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 45
+      - name: Retry the deployment once
+        id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v5
+        with:
+          timeout: 420000
+
+  # Tell Bing and the other IndexNow engines (not Google) that the site changed. A failed ping never fails a deploy.
+  indexnow:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tell IndexNow the site changed
+        run: |
+          curl -s -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d '{
+              "host": "sable.streamerosai.com",
+              "key": "231a9cade000baca9f73cac54909974c",
+              "keyLocation": "https://sable.streamerosai.com/231a9cade000baca9f73cac54909974c.txt",
+              "urlList": [
+                "https://sable.streamerosai.com/",
+                "https://sable.streamerosai.com/features/",
+                "https://sable.streamerosai.com/your-data/",
+                "https://sable.streamerosai.com/about/",
+                "https://sable.streamerosai.com/contact/",
+                "https://sable.streamerosai.com/privacy/",
+                "https://sable.streamerosai.com/terms/"
+              ]
+            }' || true

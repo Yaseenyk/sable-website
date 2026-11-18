@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Inter (text) and JetBrains Mono (numbers), as in the Sable brand kit. The files are kept in the repo so the
+   build never fetches Google Fonts. The latin-ext files carry the rupee sign. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./fonts/Inter-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./fonts/Inter-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("./fonts/JetBrainsMono-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("./fonts/JetBrainsMono-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #070b16;
+}
+
+body {
+  background: #070b16;
+  color: #f8fafc;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Grid children may shrink below their content's width, so a wide table scrolls inside its own box
+   instead of stretching the page sideways on a phone. */
+.grid > * {
+  min-width: 0;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The one gradient in the brand: the cyan-to-indigo of the app icon. Used for the logo, one accent word and the main button. */
+.sable-gradient {
+  background-image: linear-gradient(135deg, #22d3ee, #6366f1);
+}
+.sable-text {
+  background-image: linear-gradient(120deg, #67e8f9, #818cf8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Long-form copy (privacy, terms, about). */
+.prose-sable h2 {
+  @apply mt-12 text-2xl font-semibold tracking-tight text-ink;
+}
+.prose-sable h3 {
+  @apply mt-8 text-lg font-semibold text-ink;
+}
+.prose-sable p,
+.prose-sable li {
+  @apply mt-4 max-w-[68ch] leading-relaxed text-ink-soft;
+}
+.prose-sable ul {
+  @apply mt-2 list-disc pl-5;
+}
+.prose-sable ol {
+  @apply mt-2 list-decimal pl-5;
+}
+.prose-sable a {
+  @apply text-cyan underline underline-offset-2 hover:text-cyan-soft;
+}
+.prose-sable strong {
+  @apply font-semibold text-ink;
+}
