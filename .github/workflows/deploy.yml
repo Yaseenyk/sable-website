@@ -25,7 +25,9 @@ jobs:
           cache: npm
       - id: pages
         uses: actions/configure-pages@v6
-      - run: npm ci
+      # npm install, not npm ci: the builder's npm rejects the lock file over an optional peer of a lint
+      # dependency (picomatch), although the same lock installs cleanly elsewhere. The esports site does the same.
+      - run: npm install --no-audit --no-fund
       - run: npm run lint
       - run: npm run typecheck
       # Built for wherever Pages serves the site: https://yaseenyk.github.io/sable-website until the
