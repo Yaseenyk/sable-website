@@ -26,16 +26,16 @@ export default function PrivacyPage() {
 
         <h3>What is recorded about a visit</h3>
         <p>
-          <strong>First-party visit counter.</strong> A small script from my own Cloudflare Worker (pulse.yaseenyk.workers.dev) counts page views, the page you came from and link clicks, and tells human visits from bots. It sets no cookie and stores no IP address, no browser user-agent string and no text you type. To count one visitor once a day it makes a one-way code from the address and browser name with a random key; that key is deleted the next day, so the code cannot be turned back into an address or linked across days. The counter switches itself off if your browser sends Do Not Track or Global Privacy Control, and it does not run on the contact and early-access pages. Records are deleted after 90 days.
+          <strong>First-party visit counter.</strong> A small script from my own Cloudflare Worker (pulse.yaseenyk.workers.dev) records the page (without the query string), the page you came from and campaign tags, country, device type, browser and system name, screen size, language, the name of your network provider, scroll depth, time on the page, page speed and which links and buttons were clicked, and tells human visits from bots. It sets no cookie and stores no IP address, no browser user-agent string and no text you type. To count one visitor once a day it makes a one-way code from the address and browser name with a random key; that key is deleted the next day, so the code cannot be turned back into an address or linked across days. The counter switches itself off if your browser sends Do Not Track or Global Privacy Control, and it does not run on the contact and early-access pages. Records are deleted after 90 days.
         </p>
         <p>
           <strong>Hosting.</strong> The site is served by GitHub Pages, which may log requests such as IP addresses under its own policy.
         </p>
         <p>
-          <strong>Google Analytics.</strong> Sets first-party cookies and sends usage data to Google: pages viewed, approximate location, device and browser, and the source of the visit.
+          <strong>Google Analytics</strong> (googletagmanager.com). Sets first-party cookies (<code>_ga</code>, <code>_ga_*</code>) and sends usage data to Google: pages viewed, approximate location, device and browser, and the source of the visit. Opt out with Google&apos;s <a href="https://tools.google.com/dlpage/gaoptout">browser add-on</a>.
         </p>
         <p>
-          <strong>Microsoft Clarity.</strong> A free tool that records anonymised heatmaps and session replays so I can see where visitors get stuck. It sets cookies. Text typed into the forms on this site is masked and is not recorded.
+          <strong>Microsoft Clarity</strong> (clarity.ms). Records session replays and heatmaps (mouse movement, clicks and scrolling) so I can see where visitors get stuck. It sets its own cookies (<code>_clck</code>, <code>_clsk</code>) and Microsoft cookies on clarity.ms and bing.com (such as <code>MUID</code>); see the <a href="https://privacy.microsoft.com/privacystatement">Microsoft privacy statement</a>. Text typed into the forms on this site is masked and is not recorded.
         </p>
         <p>
           Both load a few seconds after the page, or when you first touch it. None of this is used to target you with advertising, and the site has no advertising cookies. You can block both with a browser extension or by turning off cookies, and the site keeps working. The fonts are served from this site, not from Google.
