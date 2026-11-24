@@ -5,9 +5,9 @@ import type { Shot } from "@/lib/shots";
  * A real screen from the app inside a plain phone outline. The caption always says the entries are samples,
  * because the screens were captured with entries typed in for the purpose.
  */
-export default function PhoneShot({ shot, priority = false }: { shot: Shot; priority?: boolean }) {
+export default function PhoneShot({ shot, priority = false, className = "max-w-[300px]" }: { shot: Shot; priority?: boolean; className?: string }) {
   return (
-    <figure className="mx-auto w-full max-w-[300px]">
+    <figure className={`mx-auto w-full ${className}`}>
       <div className="rounded-[2.2rem] border border-line bg-navy-sunken p-2.5 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.9)]">
         <Image
           src={shot.src}

@@ -29,34 +29,40 @@ export default function HomePage() {
     <>
       <JsonLd data={[webPageJsonLd({ path: "", name: "Sable: personal expense tracker app for India", description: SITE_DESCRIPTION, shots: ALL_SHOTS }), faqPageJsonLd(FAQS)]} />
 
-      {/* Hero */}
+      {/* Hero. Most visitors never scroll, so the first screen says what Sable is (eyebrow and first sentence)
+          and stays short enough on a phone for the top of the app screen to show below the buttons. */}
       <section>
-        <Container className="grid items-center gap-12 pb-16 pt-12 sm:pt-16 lg:grid-cols-[1.15fr_0.85fr] lg:pb-24">
+        <Container className="grid items-center gap-8 pb-14 pt-7 sm:pt-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12 lg:pb-16">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-line bg-navy-card px-3 py-1.5 font-mono text-[12.5px] text-ink-soft">
-              <i className="h-1.5 w-1.5 rounded-full bg-cyan" aria-hidden="true" />
-              {APP.platform} · {APP.status.toLowerCase()}
+            <p className="inline-flex items-center gap-2 rounded-full border border-line bg-navy-card px-3 py-1.5 text-[13px] text-ink-soft sm:font-mono sm:text-[12.5px]">
+              <i className="h-1.5 w-1.5 shrink-0 rounded-full bg-cyan" aria-hidden="true" />
+              Expense tracker for {APP.platform} · {APP.status.toLowerCase()}
             </p>
-            <h1 className="mt-6 max-w-[17ch] text-[2.6rem] font-semibold leading-[1.05] tracking-tight text-ink sm:text-6xl">
+            <h1 className="mt-4 max-w-[17ch] text-[2.15rem] font-semibold leading-[1.08] tracking-tight text-ink sm:mt-6 sm:text-5xl lg:text-[3.5rem]">
               Know what is left this month, and <span className="sable-text">who owes whom</span>
             </h1>
-            <p className="mt-6 max-w-[56ch] text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 max-w-[56ch] text-base leading-relaxed text-ink-soft sm:mt-6 sm:text-lg">
               Sable is a personal expense tracker app for India. Say what happened in plain words, or hand it a bank statement, and it keeps the record on your phone. It never asks to read your SMS, and there is no account, no sign-up and no server of mine.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
               <PrimaryLink href="/early-access/">Ask for early access</PrimaryLink>
               <SecondaryLink href="/your-data/">How your data is handled</SecondaryLink>
             </div>
-            <p className="mt-5 max-w-[56ch] text-sm leading-relaxed text-ink-mute">
+            <p className="mt-4 max-w-[56ch] text-sm leading-relaxed text-ink-mute sm:mt-5">
               {APP.store}. Version {APP.version}, for {APP.minAndroid}. Rupees only.
             </p>
+            <p className="mt-5 hidden lg:block">
+              <a href="#what-it-does" className="inline-flex items-center gap-2 text-[15px] font-semibold text-cyan hover:text-cyan-soft">
+                See what it does <span aria-hidden="true">↓</span>
+              </a>
+            </p>
           </div>
-          <PhoneShot shot={SHOTS.home} priority />
+          <PhoneShot shot={SHOTS.home} priority className="max-w-[270px] lg:max-w-[260px]" />
         </Container>
       </section>
 
       {/* Three questions */}
-      <section className="border-t border-line">
+      <section id="what-it-does" className="scroll-mt-16 border-t border-line">
         <Container className="py-16 sm:py-20">
           <SectionHeading eyebrow={SITE_TAGLINE} title="Three questions, answered on one phone" lead="Sable is deliberately small. It does not ask you to sort your life into categories. It answers three plain questions." />
           <div className="mt-10 grid gap-8 md:grid-cols-3">
