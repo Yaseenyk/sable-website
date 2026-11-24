@@ -3,6 +3,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import emailjs from "@emailjs/browser";
 import { EMAILJS } from "@/lib/emailjs";
+import { sendToInbox } from "@/lib/inbox";
 import { withBase } from "@/lib/site";
 import { gaEvent } from "@/lib/ga";
 
@@ -56,6 +57,19 @@ export default function LeadForm({ intent = "early-access" }: { intent?: Intent 
       form.message || "(no message)",
     ].join("\n");
 
+    // The inbox (the owner's own database) is the record; email is only a notification on top.
+    // "phone" here is the phone model (e.g. Pixel 7), not a number, so it goes in extra.
+    const extra: Record<string, string> = {};
+    if (form.phone) extra.android_phone = form.phone;
+    if (form.today) extra.tracks_money_with = form.today;
+    const saved = await sendToInbox({
+      form: intent === "early-access" ? "early-access" : "contact",
+      name: form.name,
+      email: form.email,
+      message: form.message || undefined,
+      extra: Object.keys(extra).length ? extra : undefined,
+    });
+
     try {
       await emailjs.send(
         EMAILJS.service,
@@ -75,6 +89,14 @@ export default function LeadForm({ intent = "early-access" }: { intent?: Intent 
       setStatus("sent");
       setForm(EMPTY);
     } catch (err) {
+      console.error("EmailJS send failed:", err);
+      if (saved) {
+        // Stored in the inbox, so the request is not lost even though the email notice failed.
+        gaEvent("generate_lead", { form_name: "sable-lead", cta_text: intent });
+        setStatus("sent");
+        setForm(EMPTY);
+        return;
+      }
       const x = err as { status?: number; text?: string };
       setErrorDetail(x?.text ? `${x.status ?? ""} ${x.text}`.trim() : "");
       setStatus("error");
