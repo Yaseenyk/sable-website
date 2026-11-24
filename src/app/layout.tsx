@@ -71,10 +71,17 @@ const thirdPartyLoader = (ga: string, clarity: string) =>
       : ""
   }}['pointerdown','keydown','scroll','touchstart'].forEach(function(e){w.addEventListener(e,go,{once:true,passive:true})});function onLoad(){setTimeout(go,4000)}if(d.readyState==='complete')onLoad();else w.addEventListener('load',onLoad,{once:true})})();`;
 
+// Keeps React working when a visitor reads the page through Google Translate (see the <head> comment).
+const TRANSLATE_GUARD =
+  "(function(){if(typeof Node!=='function'||!Node.prototype)return;var r=Node.prototype.removeChild;Node.prototype.removeChild=function(c){if(c.parentNode!==this){return c;}return r.apply(this,arguments);};var i=Node.prototype.insertBefore;Node.prototype.insertBefore=function(n,ref){if(ref&&ref.parentNode!==this){return i.call(this,n,null);}return i.apply(this,arguments);};})();";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-IN">
       <head>
+        {/* Translate guard: Chrome's Google Translate swaps text nodes for <font> elements, and React then throws
+            removeChild/insertBefore errors. Runs first, before hydration. */}
+        <script dangerouslySetInnerHTML={{ __html: TRANSLATE_GUARD }} />
         {ANALYTICS.googleTag && <script dangerouslySetInnerHTML={{ __html: gaBoot(ANALYTICS.googleTag) }} />}
         {(ANALYTICS.googleTag || ANALYTICS.clarity) && <script dangerouslySetInnerHTML={{ __html: thirdPartyLoader(ANALYTICS.googleTag, ANALYTICS.clarity) }} />}
         {/* First-party visit counter (the owner's own Cloudflare Worker): no cookies, no stored address. Off on the form pages. */}

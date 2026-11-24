@@ -5,7 +5,7 @@
   "description": "Website for Sable, a personal money app for Android (sable.streamerosai.com)",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/verify-sitemap.mjs && node scripts/check-third-party.mjs && node scripts/verify-no-ads.mjs",
+    "build": "next build && node scripts/inline-css.mjs && node scripts/verify-sitemap.mjs && node scripts/check-third-party.mjs && node scripts/verify-no-ads.mjs",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
   },
